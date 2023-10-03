@@ -112,8 +112,8 @@ tasks.jacocoTestCoverageVerification {
 		classDirectories.setFrom(
 			sourceSets.main.get().output.asFileTree.matching {
 				exclude(
-					"es/in2/wallet/UserRegistryApiApplication.kt",
-					"es/in2/wallet/model/*"
+					"es/in2/wallet/user/WalletUserRegistryApiApplication.kt",
+					"es/in2/wallet/user/model/*"
 				)
 			}
 		)

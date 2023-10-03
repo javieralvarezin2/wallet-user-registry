@@ -1,6 +1,6 @@
 spring:
   application:
-    name: WalletAPI
+    name: WalletUserRegistryAPI
   datasource:
     url: jdbc:mysql://localhost:3309/domedb?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
     username: in2admin
@@ -30,7 +30,7 @@ in2:
 
 app:
   url:
-    api: http://localhost:8085
+    api: http://localhost:8085 # TODO - Change
 
 # Logging configuration
 logging:
