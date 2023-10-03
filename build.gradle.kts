@@ -59,17 +59,6 @@ dependencies {
 	// OpenAPI
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4")
 
-	// walt.id
-	// https://github.com/walt-id/waltid-ssikit
-	// to update this versions go to
-	// https://maven.walt.id/repository/waltid-ssi-kit/id/walt/waltid-sd-jwt-jvm/
-	// https://maven.walt.id/repository/waltid-ssi-kit/id/walt/waltid-ssikit
-	// and pick the one with the newest version number
-	// make sure to update all other implementations in issuer
-	implementation("id.walt:waltid-ssikit:1.2308021811.0")
-	implementation("id.walt:waltid-sd-jwt-jvm:1.2306191408.0")
-	implementation("id.walt.servicematrix:WaltID-ServiceMatrix:1.1.3")
-
 	// nimbus-jjwt
 	implementation("com.nimbusds:nimbus-jose-jwt:9.30.2")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
