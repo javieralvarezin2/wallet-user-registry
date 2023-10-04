@@ -1,4 +1,4 @@
-package es.in2.wallet.services
+package es.in2.wallet.user.services
 
 import es.in2.wallet.user.exception.EmailAlreadyExistsException
 import es.in2.wallet.user.exception.UsernameAlreadyExistsException

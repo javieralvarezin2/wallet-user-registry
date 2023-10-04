@@ -1,25 +1,26 @@
-package es.in2.wallet.domain.dtos
+package es.in2.wallet.user.domain.dtos
 
-import es.in2.wallet.user.model.dto.AppUserRequestDTO
+import es.in2.wallet.user.model.dto.AppUserResponseDTO
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
+import java.util.*
 
 @SpringBootTest
-class AppUserRequestDTOTest {
+class AppUserResponseDTOTest {
 
     @Test
     fun testDTOProperties() {
         // Create test data
+        val uuid = UUID.randomUUID().toString()
         val username = "johnDoe"
         val email = "john@example.com"
-        val password = "secretpassword"
         // Create an instance of the DTO
-        val (username1, email1, password1) = AppUserRequestDTO(username, email, password)
+        val (uuid1, username1, email1) = AppUserResponseDTO(uuid, username, email)
         // Verify the properties
+        Assertions.assertEquals(uuid, uuid1)
         Assertions.assertEquals(username, username1)
         Assertions.assertEquals(email, email1)
-        Assertions.assertEquals(password, password1)
     }
 
 }

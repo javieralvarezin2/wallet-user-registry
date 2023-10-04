@@ -1,6 +1,5 @@
-package es.in2.wallet.controller
+package es.in2.wallet.user.controller
 
-import es.in2.wallet.user.controller.AppUserController
 import es.in2.wallet.user.model.entity.AppUser
 import es.in2.wallet.user.service.AppUserService
 import org.junit.jupiter.api.BeforeEach
@@ -62,9 +61,9 @@ class AppUserControllerTest {
     @Test
     fun testRegisterUser() {
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/api/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"username\":\"jdoe\",\"email\":\"jdoe@example.com\",\"password\":\"1234\"}")
+                MockMvcRequestBuilders.post("/api/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\":\"jdoe\",\"email\":\"jdoe@example.com\",\"password\":\"1234\"}")
         ).andExpect(status().isCreated)
     }
 

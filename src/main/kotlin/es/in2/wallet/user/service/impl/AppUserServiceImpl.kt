@@ -1,11 +1,11 @@
 package es.in2.wallet.user.service.impl
 
-import es.in2.wallet.user.model.entity.AppUser
-import es.in2.wallet.user.model.dto.AppUserRequestDTO
-import es.in2.wallet.user.model.repository.AppUserRepository
-import es.in2.wallet.user.service.AppUserService
 import es.in2.wallet.user.exception.EmailAlreadyExistsException
 import es.in2.wallet.user.exception.UsernameAlreadyExistsException
+import es.in2.wallet.user.model.dto.AppUserRequestDTO
+import es.in2.wallet.user.model.entity.AppUser
+import es.in2.wallet.user.model.repository.AppUserRepository
+import es.in2.wallet.user.service.AppUserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication

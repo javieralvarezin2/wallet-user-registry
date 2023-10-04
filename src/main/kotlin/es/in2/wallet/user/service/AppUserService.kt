@@ -1,7 +1,7 @@
 package es.in2.wallet.user.service
 
-import es.in2.wallet.user.model.entity.AppUser
 import es.in2.wallet.user.model.dto.AppUserRequestDTO
+import es.in2.wallet.user.model.entity.AppUser
 import java.util.*
 
 interface AppUserService {

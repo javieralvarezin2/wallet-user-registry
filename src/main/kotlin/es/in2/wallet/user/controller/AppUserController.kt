@@ -1,7 +1,7 @@
 package es.in2.wallet.user.controller
 
-import es.in2.wallet.user.model.entity.AppUser
 import es.in2.wallet.user.model.dto.AppUserRequestDTO
+import es.in2.wallet.user.model.entity.AppUser
 import es.in2.wallet.user.service.AppUserService
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.websocket.server.PathParam
