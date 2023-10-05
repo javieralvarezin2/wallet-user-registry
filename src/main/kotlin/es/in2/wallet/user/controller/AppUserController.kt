@@ -1,7 +1,8 @@
 package es.in2.wallet.user.controller
 
 import es.in2.wallet.user.model.dto.AppUserRequestDTO
-import es.in2.wallet.user.model.entity.AppUser
+import es.in2.wallet.user.model.dto.AppUserResponseDTO
+import es.in2.wallet.user.model.mappers.AppUserMapper
 import es.in2.wallet.user.service.AppUserService
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.websocket.server.PathParam
@@ -15,7 +16,8 @@ import java.util.*
 @RestController
 @RequestMapping("/api/users")
 class AppUserController(
-    private val appUserService: AppUserService
+        private val appUserService: AppUserService,
+        private val mapper: AppUserMapper
 ) {
 
     private val log: Logger = LoggerFactory.getLogger(AppUserController::class.java)
@@ -24,28 +26,25 @@ class AppUserController(
     @ResponseStatus(HttpStatus.CREATED)
     fun registerUser(@RequestBody appUserRequestDTO: AppUserRequestDTO) {
         log.debug("AppUserController.registerUser()")
-        appUserService.registerUser(appUserRequestDTO)
+        appUserService.registerUser(mapper.toEntity(appUserRequestDTO))
     }
 
-    // fixme: this method should return List<AppUserResponseDTO>
     @GetMapping
-    fun getAllUsers(): List<AppUser> {
+    fun getAllUsers(): List<AppUserResponseDTO> {
         log.debug("AppUserController.getAllUsers()")
-        return appUserService.getUsers()
+        return appUserService.getUsers().map { mapper.toDto(it) }
     }
 
-    // fixme: this method should return an AppUserResponseDTO
     @GetMapping("/uuid")
-    fun getUserByUUID(@PathParam("uuid") uuid: String): Optional<AppUser> {
+    fun getUserByUUID(@PathParam("uuid") uuid: String): Optional<AppUserResponseDTO> {
         log.debug("AppUserController.getUserByUUID()")
-        return appUserService.getUserById(UUID.fromString(uuid))
+        return appUserService.getUserById(UUID.fromString(uuid)).map { mapper.toDto(it) }
     }
 
-    // fixme: this method should return an AppUserResponseDTO
     @GetMapping("/username")
-    fun getUserByUsername(@PathParam("username") username: String): Optional<AppUser> {
+    fun getUserByUsername(@PathParam("username") username: String): Optional<AppUserResponseDTO> {
         log.debug("AppUserController.getUserByUsername()")
-        return appUserService.getUserByUsername(username)
+        return appUserService.getUserByUsername(username).map { mapper.toDto(it) }
     }
 
 }

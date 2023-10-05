@@ -2,7 +2,6 @@ package es.in2.wallet.user.service.impl
 
 import es.in2.wallet.user.exception.EmailAlreadyExistsException
 import es.in2.wallet.user.exception.UsernameAlreadyExistsException
-import es.in2.wallet.user.model.dto.AppUserRequestDTO
 import es.in2.wallet.user.model.entity.AppUser
 import es.in2.wallet.user.model.repository.AppUserRepository
 import es.in2.wallet.user.service.AppUserService
@@ -10,13 +9,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class AppUserServiceImpl(
-    private val appUserRepository: AppUserRepository
+        private val appUserRepository: AppUserRepository
 ) : AppUserService {
 
     private val log: Logger = LoggerFactory.getLogger(AppUserServiceImpl::class.java)
@@ -36,16 +34,11 @@ class AppUserServiceImpl(
         return getUserByUsername(authentication.name).get()
     }
 
-    override fun registerUser(appUserRequestDTO: AppUserRequestDTO) {
+    override fun registerUser(appUser: AppUser) {
         log.info("AppUserServiceImpl.registerUser()")
-        checkIfUsernameAlreadyExist(appUserRequestDTO)
-        checkIfEmailAlreadyExist(appUserRequestDTO)
-        val appUser = AppUser(
-            id = UUID.randomUUID(),
-            username = appUserRequestDTO.username,
-            email = appUserRequestDTO.email,
-            password = BCryptPasswordEncoder().encode(appUserRequestDTO.password)
-        )
+        checkIfUsernameAlreadyExist(appUser)
+        checkIfEmailAlreadyExist(appUser)
+
         log.info(appUser.id.toString())
         saveUser(appUser)
     }
@@ -75,17 +68,17 @@ class AppUserServiceImpl(
         appUserRepository.save(appUser)
     }
 
-    private fun checkIfUsernameAlreadyExist(appUserRequestDTO: AppUserRequestDTO) {
+    private fun checkIfUsernameAlreadyExist(appUser: AppUser) {
         log.info("AppUserServiceImpl.checkIfUsernameAlreadyExist()")
-        if (getUserByUsername(appUserRequestDTO.username).isPresent) {
-            throw UsernameAlreadyExistsException("Username already exists: ${appUserRequestDTO.username}")
+        if (getUserByUsername(appUser.username).isPresent) {
+            throw UsernameAlreadyExistsException("Username already exists: ${appUser.username}")
         }
     }
 
-    private fun checkIfEmailAlreadyExist(appUserRequestDTO: AppUserRequestDTO) {
+    private fun checkIfEmailAlreadyExist(appUser: AppUser) {
         log.info("AppUserServiceImpl.checkIfEmailAlreadyExist()")
-        if (getUserByEmail(appUserRequestDTO.email).isPresent) {
-            throw EmailAlreadyExistsException("Email already exists: ${appUserRequestDTO.email}")
+        if (getUserByEmail(appUser.email).isPresent) {
+            throw EmailAlreadyExistsException("Email already exists: ${appUser.email}")
         }
     }
 

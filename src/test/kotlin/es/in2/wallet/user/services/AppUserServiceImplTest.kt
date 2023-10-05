@@ -2,7 +2,6 @@ package es.in2.wallet.user.services
 
 import es.in2.wallet.user.exception.EmailAlreadyExistsException
 import es.in2.wallet.user.exception.UsernameAlreadyExistsException
-import es.in2.wallet.user.model.dto.AppUserRequestDTO
 import es.in2.wallet.user.model.entity.AppUser
 import es.in2.wallet.user.model.repository.AppUserRepository
 import es.in2.wallet.user.service.impl.AppUserServiceImpl
@@ -35,44 +34,44 @@ class AppUserServiceImplTest {
 
     @Test
     fun testRegisterUser() {
-        val appUserRequestDTO = AppUserRequestDTO(username = "jdoe", email = "jdoe@example.com", password = "1234")
+        //val appUserRequestDTO = AppUserRequestDTO(username = "jdoe", email = "jdoe@example.com", password = "1234")
         val appUser = AppUser(UUID.randomUUID(), "jdoe", "jdoe@example.com", "hashedPassword")
-        `when`(appUserRepository.findAppUserByUsername(appUserRequestDTO.username)).thenReturn(Optional.empty())
-        `when`(appUserRepository.findAppUserByEmail(appUserRequestDTO.email)).thenReturn(Optional.empty())
+        `when`(appUserRepository.findAppUserByUsername(appUser.username)).thenReturn(Optional.empty())
+        `when`(appUserRepository.findAppUserByEmail(appUser.email)).thenReturn(Optional.empty())
         `when`(appUserRepository.save(any(AppUser::class.java))).thenReturn(appUser)
-        appUserServiceImpl.registerUser(appUserRequestDTO)
-        verify(appUserRepository).findAppUserByUsername(appUserRequestDTO.username)
-        verify(appUserRepository).findAppUserByEmail(appUserRequestDTO.email)
+        appUserServiceImpl.registerUser(appUser)
+        verify(appUserRepository).findAppUserByUsername(appUser.username)
+        verify(appUserRepository).findAppUserByEmail(appUser.email)
         verify(appUserRepository).save(any(AppUser::class.java))
     }
 
     @Test
     fun testRegisterUser_UsernameAlreadyExists() {
-        val appUserRequestDTO = AppUserRequestDTO(username = "jdoe", email = "jdoe@example.com", password = "1234")
+        //val appUserRequestDTO = AppUserRequestDTO(username = "jdoe", email = "jdoe@example.com", password = "1234")
         val existingUser = AppUser(UUID.randomUUID(), "jdoe", "jdoe@example.com", "hashedPassword")
-        `when`(appUserRepository.findAppUserByUsername(appUserRequestDTO.username)).thenReturn(Optional.of(existingUser))
+        `when`(appUserRepository.findAppUserByUsername(existingUser.username)).thenReturn(Optional.of(existingUser))
         try {
-            appUserServiceImpl.registerUser(appUserRequestDTO)
+            appUserServiceImpl.registerUser(existingUser)
         } catch (e: UsernameAlreadyExistsException) {
-            assertThat(e.message).isEqualTo("Username already exists: ${appUserRequestDTO.username}")
+            assertThat(e.message).isEqualTo("Username already exists: ${existingUser.username}")
         }
-        verify(appUserRepository).findAppUserByUsername(appUserRequestDTO.username)
+        verify(appUserRepository).findAppUserByUsername(existingUser.username)
         verifyNoMoreInteractions(appUserRepository)
     }
 
     @Test
     fun testRegisterUser_EmailAlreadyExists() {
-        val appUserRequestDTO = AppUserRequestDTO(username = "jdoe", email = "jdoe@example.com", password = "1234")
+        //val appUserRequestDTO = AppUserRequestDTO(username = "jdoe", email = "jdoe@example.com", password = "1234")
         val existingUser = AppUser(UUID.randomUUID(), "jdoe", "jdoe@example.com", "hashedPassword")
-        `when`(appUserRepository.findAppUserByUsername(appUserRequestDTO.username)).thenReturn(Optional.empty())
-        `when`(appUserRepository.findAppUserByEmail(appUserRequestDTO.email)).thenReturn(Optional.of(existingUser))
+        `when`(appUserRepository.findAppUserByUsername(existingUser.username)).thenReturn(Optional.empty())
+        `when`(appUserRepository.findAppUserByEmail(existingUser.email)).thenReturn(Optional.of(existingUser))
         try {
-            appUserServiceImpl.registerUser(appUserRequestDTO)
+            appUserServiceImpl.registerUser(existingUser)
         } catch (e: EmailAlreadyExistsException) {
-            assertThat(e.message).isEqualTo("Email already exists: ${appUserRequestDTO.email}")
+            assertThat(e.message).isEqualTo("Email already exists: ${existingUser.email}")
         }
-        verify(appUserRepository).findAppUserByUsername(appUserRequestDTO.username)
-        verify(appUserRepository).findAppUserByEmail(appUserRequestDTO.email)
+        verify(appUserRepository).findAppUserByUsername(existingUser.username)
+        verify(appUserRepository).findAppUserByEmail(existingUser.email)
         verifyNoMoreInteractions(appUserRepository)
     }
 
