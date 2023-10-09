@@ -76,19 +76,6 @@ class AppUserServiceImplTest {
     }
 
     @Test
-    fun testGetUsers() {
-        // Mock the behavior of the appUserRepository
-        val user1 = AppUser(UUID.randomUUID(), "user1", "user1@example.com", "password1")
-        val user2 = AppUser(UUID.randomUUID(), "user2", "user2@example.com", "password2")
-        val userList = listOf(user1, user2)
-        `when`(appUserRepository.findAll()).thenReturn(userList)
-        // Call the getUsers method
-        val result = appUserServiceImpl.getUsers()
-        // Verify the result
-        assertEquals(userList, result)
-    }
-
-    @Test
     fun testGetUserById() {
         // Mock the behavior of the appUserRepository
         val userId = UUID.randomUUID()
@@ -99,26 +86,6 @@ class AppUserServiceImplTest {
         // Verify the result
         Assertions.assertTrue(result.isPresent)
         assertEquals(user, result.get())
-    }
-
-
-    @Test
-    fun testCheckIfUserExists_UserFound() {
-        val username = "testuser"
-        val userFound = AppUser(UUID.randomUUID(), username, "testEmail", "testPassword")
-        `when`(appUserRepository.findAppUserByUsername(username)).thenReturn(Optional.of(userFound))
-        val result: AppUser = appUserServiceImpl.checkIfUserExists(username)
-        assertEquals(userFound, result)
-    }
-
-    @Test
-    fun testCheckIfUserExists_UserNotFound() {
-        val username = "nonexistentuser"
-        `when`(appUserRepository.findAppUserByUsername(username)).thenReturn(Optional.empty())
-        val exception: NoSuchElementException = assertThrows(NoSuchElementException::class.java) {
-            appUserServiceImpl.checkIfUserExists(username)
-        }
-        assertEquals("The username $username does not exist.", exception.message)
     }
 
 }

@@ -5,7 +5,6 @@ import es.in2.wallet.user.model.dto.AppUserResponseDTO
 import es.in2.wallet.user.model.mappers.AppUserMapper
 import es.in2.wallet.user.service.AppUserService
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.websocket.server.PathParam
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -29,22 +28,13 @@ class AppUserController(
         appUserService.registerUser(mapper.toEntity(appUserRequestDTO))
     }
 
-    @GetMapping
-    fun getAllUsers(): List<AppUserResponseDTO> {
-        log.debug("AppUserController.getAllUsers()")
-        return appUserService.getUsers().map { mapper.toDto(it) }
-    }
-
-    @GetMapping("/uuid")
-    fun getUserByUUID(@PathParam("uuid") uuid: String): Optional<AppUserResponseDTO> {
+    @GetMapping("/{id}")
+    fun getUserByUUID(@PathVariable id: String): Optional<AppUserResponseDTO> {
         log.debug("AppUserController.getUserByUUID()")
-        return appUserService.getUserById(UUID.fromString(uuid)).map { mapper.toDto(it) }
+        return appUserService.getUserById(UUID.fromString(id)).map { mapper.toDto(it) }
     }
 
-    @GetMapping("/username")
-    fun getUserByUsername(@PathParam("username") username: String): Optional<AppUserResponseDTO> {
-        log.debug("AppUserController.getUserByUsername()")
-        return appUserService.getUserByUsername(username).map { mapper.toDto(it) }
-    }
+
+
 
 }

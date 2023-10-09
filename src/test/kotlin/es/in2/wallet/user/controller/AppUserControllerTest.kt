@@ -69,55 +69,24 @@ class AppUserControllerTest {
 
     // @Post /api/users
 
-//    @Test
-//    fun testRegisterUser() {
-//        mockMvc.perform(
-//                MockMvcRequestBuilders.post("/api/users")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"username\":\"jdoe\",\"email\":\"jdoe@example.com\",\"password\":\"1234\"}")
-//        ).andExpect(status().isCreated)
-//    }
-
-    // @Get /api/users
-
     @Test
-    fun `getAllUsers should return a list of AppUser`() {
-        val users = listOf(appUser)
-
-        given(appUserService.getUsers()).willReturn(users)
-        given(mapper.toDto(appUser)).willReturn(userResponseDTO)
-
-
+    fun testRegisterUser() {
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/users")
+                MockMvcRequestBuilders.post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-        )
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$[0].username").value("jdoe"))
+                        .content("{\"username\":\"jdoe\",\"email\":\"jdoe@example.com\",\"password\":\"1234\"}")
+        ).andExpect(status().isCreated)
     }
 
-    // @Get /api/users/{uuid}
+
+    // @Get /api/users/{id}
 
     @Test
     fun testGetUserByUUID() {
         given(appUserService.getUserById(uuid)).willReturn(Optional.of(appUser))
         given(mapper.toDto(appUser)).willReturn(userResponseDTO)
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/uuid?uuid=$uuid"))
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.uuid").value(uuid.toString()))
-                .andExpect(jsonPath("$.username").value("jdoe"))
-                .andExpect(jsonPath("$.email").value("jdoe@example.com"))
-    }
-
-    // @Get /api/users/{username}
-
-    @Test
-    fun testGetUserByUsername() {
-        given(appUserService.getUserByUsername(appUser.username)).willReturn(Optional.of(appUser))
-        given(mapper.toDto(appUser)).willReturn(userResponseDTO)
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/username?username=${appUser.username}"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users/$uuid"))
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.uuid").value(uuid.toString()))
                 .andExpect(jsonPath("$.username").value("jdoe"))

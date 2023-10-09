@@ -7,8 +7,6 @@ import es.in2.wallet.user.model.repository.AppUserRepository
 import es.in2.wallet.user.service.AppUserService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -19,21 +17,6 @@ class AppUserServiceImpl(
 
     private val log: Logger = LoggerFactory.getLogger(AppUserServiceImpl::class.java)
 
-    override fun checkIfUserExists(username: String): AppUser {
-        val userFound = getUserByUsername(username)
-        if (userFound.isPresent) {
-            return userFound.get()
-        } else {
-            throw NoSuchElementException("The username $username does not exist.")
-        }
-    }
-
-    override fun getUserWithContextAuthentication(): AppUser {
-        log.info("AppUserServiceImpl.getUserWithContextAuthentication()")
-        val authentication: Authentication = SecurityContextHolder.getContext().authentication
-        return getUserByUsername(authentication.name).get()
-    }
-
     override fun registerUser(appUser: AppUser) {
         log.info("AppUserServiceImpl.registerUser()")
         checkIfUsernameAlreadyExist(appUser)
@@ -41,11 +24,6 @@ class AppUserServiceImpl(
 
         log.info(appUser.id.toString())
         saveUser(appUser)
-    }
-
-    override fun getUsers(): List<AppUser> {
-        log.info("AppUserServiceImpl.getUsers()")
-        return listOf(appUserRepository.findAll()).flatten()
     }
 
     override fun getUserById(uuid: UUID): Optional<AppUser> {
