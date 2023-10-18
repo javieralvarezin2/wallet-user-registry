@@ -1,6 +1,7 @@
 package es.in2.wallet.user.exception.handler
 
 import es.in2.wallet.user.exception.EmailAlreadyExistsException
+import es.in2.wallet.user.exception.FailedCommunicationException
 import es.in2.wallet.user.exception.UsernameAlreadyExistsException
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -25,6 +26,13 @@ class ApiExceptionHandler {
     @ExceptionHandler(UsernameAlreadyExistsException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     fun handleUsernameAlreadyExistsException(e: Exception): ResponseEntity<Unit> {
+        log.error(e.message)
+        return ResponseEntity(HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(FailedCommunicationException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun failedCommunicationException(e: Exception): ResponseEntity<Unit> {
         log.error(e.message)
         return ResponseEntity(HttpStatus.BAD_REQUEST)
     }

@@ -33,6 +33,7 @@ repositories {
 dependencies {
 
     // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -45,6 +46,16 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.testng:testng:7.7.0")
+
+    // Keycloak
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.0")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.1.3")
+    implementation("io.ktor:ktor-client-apache:1.6.4")
+    implementation("io.ktor:ktor-client-core:2.2.4")
+    implementation("io.ktor:ktor-client-json:1.6.4")
+    implementation("org.apache.httpcomponents:httpclient:4.5.13")
+    implementation("org.keycloak:keycloak-admin-client:15.0.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
 
     // Persistence Layer
     runtimeOnly("com.h2database:h2:2.1.214")
@@ -65,10 +76,6 @@ dependencies {
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
     implementation("com.google.code.gson:gson:2.10.1")
 
-    // mapping
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
-
     // testing
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -78,7 +85,6 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     testImplementation("org.mockito:mockito-core:3.12.4")
     testImplementation("io.mockk:mockk:1.13.5")
-    testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
 }
 

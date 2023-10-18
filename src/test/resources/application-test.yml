@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: WalletUserRegistryAPI
+  datasource:
+    url: jdbc:h2:mem:dbtest
+    driver-class-name: org.h2.Driver
+    username: in2admin
+    password: in2pass
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+    properties:
+      jakarta.persistence.sharedCache.mode: UNSPECIFIED
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate-ddl: true
+
+server:
+  port: 8085
+
+in2:
+  openapi:
+    local-url: http://localhost:8085
+    dev-url: http://localhost:8085 # TODO - Change
+
+app:
+  url:
+    api: http://localhost:8085 # TODO - Change
+
+keycloak:
+  url: http://localhost:8084
+  realm: EAAProvider
+  admin-username: in2admin
+  admin-password: in2pass
+  grant-type: password
+  client-secret: vxuLBYhEJ0atp1AZPjwKh5hzaZMOqd5y
+  client-id: oidc4vci-client

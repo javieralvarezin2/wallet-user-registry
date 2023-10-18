@@ -1,0 +1,42 @@
+version: '3.3'
+services:
+
+  wallet-keycloak:
+    container_name: wallet-keycloak
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - 8084:8084
+    command:
+      - 'start-dev'
+      - '--import-realm'
+    environment:
+      KEYCLOAK_ADMIN: in2admin
+      KEYCLOAK_ADMIN_PASSWORD: in2pass
+      KC_HOSTNAME_URL: http://localhost:8084
+      KC_HOSTNAME_ADMIN_URL: http://localhost:8084
+      KC_HTTP_PORT: 8084
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-wallet/keycloak
+      KC_DB_URL_PORT: 5433
+      KC_DB_USERNAME: in2admin
+      KC_DB_PASSWORD: in2pass
+    volumes:
+      - ./imports/wallet:/opt/keycloak/data/import
+    links:
+      - wallet-postgres
+
+  wallet-postgres:
+    container_name: postgres-wallet
+    image: postgres:latest
+    volumes:
+      - IN2_DOME_POSTGRES_WALLET:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: in2admin
+      POSTGRES_PASSWORD: in2pass
+    ports:
+      - '5433:5433'
+    restart: unless-stopped
+
+volumes:
+  IN2_DOME_POSTGRES_WALLET:
